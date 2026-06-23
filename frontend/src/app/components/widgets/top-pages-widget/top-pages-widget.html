@@ -1,0 +1,39 @@
+<div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs hover:shadow-md transition-all duration-300">
+  <div class="mb-4">
+    <h3 class="text-sm font-bold text-slate-800 tracking-tight uppercase">Top Pages Performance</h3>
+    <p class="text-xs text-slate-400">Most visited site pages and bounce rates</p>
+  </div>
+
+  @if (pages(); as list) {
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="border-b border-slate-100">
+            <th class="pb-3 text-xs font-semibold text-slate-400 uppercase">Page URL</th>
+            <th class="pb-3 text-xs font-semibold text-slate-400 uppercase text-right">Pageviews</th>
+            <th class="pb-3 text-xs font-semibold text-slate-400 uppercase text-right">Bounce Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (page of list; track page.url) {
+            <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+              <td class="py-3 text-xs font-medium text-sky-600 font-mono">{{ page.url }}</td>
+              <td class="py-3 text-xs font-bold text-slate-800 text-right">{{ page.views | number }}</td>
+              <td class="py-3 text-xs font-semibold text-right" [ngClass]="page.bounceRate > 45 ? 'text-amber-500' : 'text-emerald-500'">
+                {{ page.bounceRate }}%
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <!-- Loading skeleton for table rows -->
+    <div class="space-y-3 animate-pulse">
+      <div class="h-4 bg-slate-100 rounded-md w-full"></div>
+      <div class="h-8 bg-slate-100 rounded-md w-full"></div>
+      <div class="h-8 bg-slate-100 rounded-md w-full"></div>
+      <div class="h-8 bg-slate-100 rounded-md w-full"></div>
+    </div>
+  }
+</div>

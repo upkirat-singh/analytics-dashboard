@@ -1,0 +1,130 @@
+<div class="dashboard-layout">
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <!-- Top Header -->
+    <header class="dashboard-header">
+      <div class="header-title">
+        <h1>Analytics Overview</h1>
+        <p>Live metrics from Google Analytics & Portal Health</p>
+      </div>
+
+      <div class="header-actions">
+        <div class="status-indicator">
+          <span class="pulse-dot"></span>
+          <span>Live Sync Active</span>
+        </div>
+        <div class="month-selector">
+          <select 
+            [value]="configService.selectedMonth()" 
+            (change)="onMonthChange($event)"
+            class="bg-slate-50 border border-slate-200 text-slate-700 text-sm font-semibold rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
+          >
+            <option value="2026-05">May 2026</option>
+            <option value="2026-04">April 2026</option>
+            <option value="2026-03">March 2026</option>
+            <option value="2026-02">February 2026</option>
+            <option value="2026-01">January 2026</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" (click)="toggleSettings()">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+            </path>
+          </svg>
+          Configure Widgets
+        </button>
+      </div>
+    </header>
+
+    <!-- Dashboard Content Widgets Grid -->
+    <div class="widgets-container">
+
+      <!-- KPI Widgets Grid (Top Section) -->
+      <section class="kpi-grid">
+        @if (activeWidgets().includes('users')) {
+        <app-users-widget />
+        }
+        @if (activeWidgets().includes('sessions')) {
+        <app-sessions-widget />
+        }
+        @if (activeWidgets().includes('conversions')) {
+        <app-conversions-widget />
+        }
+        @if (activeWidgets().includes('engagement')) {
+        <app-engagement-widget />
+        }
+      </section>
+
+      <!-- Main Layout Charts/Tables Grid (Bottom Section) -->
+      <section class="main-grid">
+
+        <!-- Widget Placeholders/Components -->
+        @if (activeWidgets().includes('bounceRates')) {
+        <app-top-pages-widget />
+        }
+
+        @if (activeWidgets().includes('trafficTrends')) {
+        <app-traffic-sources-widget />
+        }
+
+        @if (activeWidgets().includes('seoPerformance')) {
+        <app-seo-performance-widget />
+        }
+
+        @if (activeWidgets().includes('pageSpeed')) {
+        <app-page-speed-widget />
+        }
+
+        @if (activeWidgets().includes('userFlow')) {
+        <app-user-flow-widget />
+        }
+
+        @if (activeWidgets().includes('formSubmissions')) {
+        <app-form-submissions-widget />
+        }
+
+        @if (activeWidgets().includes('chatbotUsage')) {
+        <app-chatbot-usage-widget />
+        }
+
+        <!-- Other widgets will be implemented and placed here in Milestone 4 -->
+      </section>
+    </div>
+  </main>
+
+  <!-- Slide-out Drawer Configuration Panel -->
+  <div class="drawer-overlay" [class.open]="isSettingsOpen()" (click)="toggleSettings()"></div>
+
+  <div class="settings-drawer" [class.open]="isSettingsOpen()">
+    <div class="drawer-header">
+      <h3>Configure Dashboard</h3>
+      <button class="close-btn" (click)="toggleSettings()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="drawer-content">
+      <p class="drawer-description">Toggle which metrics and visualization widgets appear on your primary dashboard
+        layout.</p>
+
+      <div class="widget-toggle-list">
+        @for (widget of availableWidgets; track widget.id) {
+        <label class="toggle-card" [class.selected]="configService.isWidgetActive(widget.id)">
+          <div class="toggle-info">
+            <span class="widget-name">{{ widget.title }}</span>
+            <span class="widget-type-badge">{{ widget.type | uppercase }}</span>
+          </div>
+          <div class="checkbox-wrapper">
+            <input type="checkbox" [checked]="configService.isWidgetActive(widget.id)"
+              (change)="configService.toggleWidget(widget.id)" />
+            <span class="custom-checkbox"></span>
+          </div>
+        </label>
+        }
+      </div>
+    </div>
+  </div>
+</div>

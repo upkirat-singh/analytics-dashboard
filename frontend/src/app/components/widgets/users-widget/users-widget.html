@@ -1,0 +1,47 @@
+@if (metrics(); as data) {
+  <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between h-32">
+    <div class="flex justify-between items-start">
+      <span class="text-xs font-bold tracking-wider text-slate-400 uppercase">Total Users</span>
+      
+      <!-- Trend Badge -->
+      @if (data.change.traffic > 0) {
+        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 flex items-center gap-0.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+          </svg>
+          +{{ data.change.traffic }}%
+        </span>
+      } @else if (data.change.traffic < 0) {
+        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 flex items-center gap-0.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+          {{ data.change.traffic }}%
+        </span>
+      } @else {
+        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 flex items-center gap-0.5">
+          0.0%
+        </span>
+      }
+    </div>
+    
+    <div>
+      <div class="text-2xl font-extrabold text-slate-800 tracking-tight">
+        {{ data.current.traffic | number }}
+      </div>
+      <span class="text-xs text-slate-400 font-medium">Unique visitors this month</span>
+    </div>
+  </div>
+} @else {
+  <!-- Loading Skeleton State -->
+  <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs h-32 flex flex-col justify-between animate-pulse">
+    <div class="flex justify-between items-start">
+      <div class="h-3.5 bg-slate-200 rounded-md w-24"></div>
+      <div class="h-5 bg-slate-200 rounded-full w-12"></div>
+    </div>
+    <div>
+      <div class="h-8 bg-slate-200 rounded-md w-32 mb-2"></div>
+      <div class="h-3 bg-slate-200 rounded-md w-40"></div>
+    </div>
+  </div>
+}
