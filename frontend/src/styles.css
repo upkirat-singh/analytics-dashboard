@@ -1,3 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
+
+/* ============================================================
+   NephroPlus Brand Tokens
+   Source: NephroPlus brand guidelines
+   ============================================================ */
+@theme {
+  /* Primary palette */
+  --color-brand-crimson: #DD4D40;       /* Headlines, CTAs, logo "plus", accents */
+  --color-brand-blue: #569BD2;          /* Supporting headings, icons, charts */
+  --color-brand-deep: #01486F;          /* Backgrounds, primary text, authoritative sections */
+  --color-brand-teal: #47BEA4;          /* Supporting accent only */
+
+  /* Secondary palette */
+  --color-brand-crimson-light: #E6A3A3;
+  --color-brand-crimson-mid: #E65E4A;
+  --color-brand-crimson-dark: #C73228;
+  --color-brand-blue-light: #89D2EF;
+  --color-brand-blue-mid: #3EC6F3;
+  --color-brand-blue-dark: #0074BC;
+
+  /* Type */
+  --font-display: 'Sora', system-ui, -apple-system, sans-serif;
+  --font-body: 'Open Sans', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}

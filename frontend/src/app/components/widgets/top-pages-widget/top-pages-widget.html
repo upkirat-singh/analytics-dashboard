@@ -1,6 +1,6 @@
 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs hover:shadow-md transition-all duration-300">
   <div class="mb-4">
-    <h3 class="text-sm font-bold text-slate-800 tracking-tight uppercase">Top Pages Performance</h3>
+    <h3 class="text-sm font-bold text-brand-deep tracking-tight uppercase font-display">Top Pages Performance</h3>
     <p class="text-xs text-slate-400">Most visited site pages and bounce rates</p>
   </div>
 
@@ -17,9 +17,9 @@
         <tbody>
           @for (page of list; track page.url) {
             <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-              <td class="py-3 text-xs font-medium text-sky-600 font-mono">{{ page.url }}</td>
-              <td class="py-3 text-xs font-bold text-slate-800 text-right">{{ page.views | number }}</td>
-              <td class="py-3 text-xs font-semibold text-right" [ngClass]="page.bounceRate > 45 ? 'text-amber-500' : 'text-emerald-500'">
+              <td class="py-3 text-xs font-medium text-brand-blue-dark font-mono">{{ page.url }}</td>
+              <td class="py-3 text-xs font-bold text-brand-deep text-right">{{ page.views | number }}</td>
+              <td class="py-3 text-xs font-semibold text-right" [ngClass]="page.bounceRate > 45 ? 'text-amber-500' : 'text-brand-teal'">
                 {{ page.bounceRate }}%
               </td>
             </tr>

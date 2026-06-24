@@ -1,6 +1,6 @@
 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs hover:shadow-md transition-all duration-300">
   <div class="mb-5">
-    <h3 class="text-sm font-bold text-slate-800 tracking-tight uppercase">Recent Form Submissions</h3>
+    <h3 class="text-sm font-bold text-brand-deep tracking-tight uppercase font-display">Recent Form Submissions</h3>
     <p class="text-xs text-slate-400">Latest user leads and contact form status</p>
   </div>
 
@@ -9,14 +9,14 @@
       @for (lead of list; track lead.timestamp) {
         <div class="flex justify-between items-center p-3 bg-slate-50 border border-slate-100 rounded-xl hover:bg-slate-100/40 transition-colors">
           <div class="flex flex-col">
-            <span class="text-xs font-bold text-slate-800">{{ lead.source }}</span>
+            <span class="text-xs font-bold text-brand-deep">{{ lead.source }}</span>
             <span class="text-[10px] text-slate-400 font-medium">{{ lead.timestamp }}</span>
           </div>
           
           <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full" 
             [ngClass]="{
-              'bg-emerald-50 text-emerald-600': lead.status === 'Contacted' || lead.status === 'Processed',
-              'bg-sky-50 text-sky-600': lead.status === 'Subscribed',
+              'bg-brand-teal/10 text-brand-teal': lead.status === 'Contacted' || lead.status === 'Processed',
+              'bg-brand-blue/10 text-brand-blue-dark': lead.status === 'Subscribed',
               'bg-amber-50 text-amber-600': lead.status === 'Pending'
             }">
             {{ lead.status }}

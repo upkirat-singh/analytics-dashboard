@@ -4,6 +4,9 @@
     <!-- Top Header -->
     <header class="dashboard-header">
       <div class="header-title">
+        <div class="header-brand">
+          <img src="brand/nephroplus-logo.png" alt="NephroPlus" class="header-logo" />
+        </div>
         <h1>Analytics Overview</h1>
         <p>Live metrics from Google Analytics & Portal Health</p>
       </div>
@@ -17,7 +20,7 @@
           <select 
             [value]="configService.selectedMonth()" 
             (change)="onMonthChange($event)"
-            class="bg-slate-50 border border-slate-200 text-slate-700 text-sm font-semibold rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
+            class="bg-slate-50 border border-slate-200 text-slate-700 text-sm font-semibold rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-blue cursor-pointer"
           >
             <option value="2026-05">May 2026</option>
             <option value="2026-04">April 2026</option>

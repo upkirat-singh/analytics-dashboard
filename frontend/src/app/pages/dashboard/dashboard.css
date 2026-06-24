@@ -3,8 +3,8 @@
   display: flex;
   min-height: 100vh;
   background-color: #f8fafc;
-  color: #1e293b;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--color-brand-deep);
+  font-family: var(--font-body);
 }
 
 /* Sidebar Styling */
@@ -109,12 +109,23 @@
   flex-shrink: 0;
 }
 
+.header-brand {
+  margin-bottom: 0.6rem;
+}
+
+.header-logo {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
 .header-title h1 {
+  font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 700;
   margin: 0;
   letter-spacing: -0.025em;
-  color: #0f172a;
+  color: var(--color-brand-deep);
 }
 
 .header-title p {
@@ -134,31 +145,31 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.85rem;
-  color: #10b981;
+  color: var(--color-brand-teal);
   font-weight: 500;
 }
 
 .pulse-dot {
   width: 8px;
   height: 8px;
-  background-color: #10b981;
+  background-color: var(--color-brand-teal);
   border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  box-shadow: 0 0 0 0 rgba(71, 190, 164, 0.7);
   animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
   0% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    box-shadow: 0 0 0 0 rgba(71, 190, 164, 0.7);
   }
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    box-shadow: 0 0 0 6px rgba(71, 190, 164, 0);
   }
   100% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    box-shadow: 0 0 0 0 rgba(71, 190, 164, 0);
   }
 }
 
@@ -176,14 +187,14 @@
 }
 
 .btn-primary {
-  background-color: #0f172a;
+  background-color: var(--color-brand-deep);
   color: #ffffff;
 }
 
 .btn-primary:hover {
-  background-color: #1e293b;
+  background-color: var(--color-brand-crimson);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 4px 12px rgba(221, 77, 64, 0.25);
 }
 
 /* Widgets Container & Grids */
@@ -254,9 +265,10 @@
 }
 
 .drawer-header h3 {
+  font-family: var(--font-display);
   font-size: 1.2rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--color-brand-deep);
   margin: 0;
 }
 
@@ -272,7 +284,7 @@
 
 .close-btn:hover {
   background-color: #f1f5f9;
-  color: #0f172a;
+  color: var(--color-brand-deep);
 }
 
 .drawer-content {
@@ -314,8 +326,8 @@
 }
 
 .toggle-card.selected {
-  border-color: #38bdf8;
-  background-color: #f0f9ff;
+  border-color: var(--color-brand-blue);
+  background-color: #eef6fb;
 }
 
 .toggle-info {
@@ -327,7 +339,7 @@
 .widget-name {
   font-size: 0.925rem;
   font-weight: 600;
-  color: #0f172a;
+  color: var(--color-brand-deep);
 }
 
 .widget-type-badge {
@@ -338,7 +350,7 @@
 }
 
 .toggle-card.selected .widget-type-badge {
-  color: #0284c7;
+  color: var(--color-brand-blue-dark);
 }
 
 /* Checkbox Toggle Switch Styling */
@@ -378,7 +390,7 @@
 }
 
 .checkbox-wrapper input:checked + .custom-checkbox {
-  background-color: #0284c7;
+  background-color: var(--color-brand-deep);
 }
 
 .checkbox-wrapper input:checked + .custom-checkbox::after {
