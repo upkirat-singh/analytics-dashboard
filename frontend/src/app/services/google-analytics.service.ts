@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap, catchError } from 'rxjs';
 
 export interface PageMetric {
   url: string;
@@ -15,8 +15,9 @@ export interface SEOKeyword {
 }
 
 export interface SEOPerformance {
-  score: number;
+  score: number | null;
   keywords: SEOKeyword[];
+  note?: string;
 }
 
 export interface PageSpeedMetrics {
@@ -63,6 +64,7 @@ export interface SummaryMetricValues {
 export interface SummaryMetrics {
   current: SummaryMetricValues;
   change: SummaryMetricValues;
+  source?: string;
 }
 
 @Injectable({
@@ -72,38 +74,49 @@ export class GoogleAnalyticsService {
   private readonly http = inject(HttpClient);
   private readonly API_URL = 'http://localhost:5000/api/analytics';
 
+  // Holds whether the active country credentials configuration is missing or invalid
+  readonly isCredentialsError = signal(false);
+
   // 1. Google Analytics Review Data
-  getTopPages(month: string = '2026-05'): Observable<PageMetric[]> {
-    return this.http.get<PageMetric[]>(`${this.API_URL}/top-pages?month=${month}`);
+  getTopPages(month: string = '2026-05', country: string = 'in'): Observable<PageMetric[]> {
+    return this.http.get<PageMetric[]>(`${this.API_URL}/top-pages?month=${month}&country=${country}`);
   }
 
-  getUserFlow(month: string = '2026-05'): Observable<UserFlowStage[]> {
-    return this.http.get<UserFlowStage[]>(`${this.API_URL}/user-flow?month=${month}`);
+  getUserFlow(month: string = '2026-05', country: string = 'in'): Observable<UserFlowStage[]> {
+    return this.http.get<UserFlowStage[]>(`${this.API_URL}/user-flow?month=${month}&country=${country}`);
   }
 
   // 2. Monthly Website Health Data
-  getTrafficTrends(month: string = '2026-05'): Observable<TrafficTrend[]> {
-    return this.http.get<TrafficTrend[]>(`${this.API_URL}/traffic-trends?month=${month}`);
+  getTrafficTrends(month: string = '2026-05', country: string = 'in'): Observable<TrafficTrend[]> {
+    return this.http.get<TrafficTrend[]>(`${this.API_URL}/traffic-trends?month=${month}&country=${country}`);
   }
 
-  getSEOPerformance(month: string = '2026-05'): Observable<SEOPerformance> {
-    return this.http.get<SEOPerformance>(`${this.API_URL}/seo?month=${month}`);
+  getSEOPerformance(month: string = '2026-05', country: string = 'in'): Observable<SEOPerformance> {
+    return this.http.get<SEOPerformance>(`${this.API_URL}/seo?month=${month}&country=${country}`);
   }
 
-  getPageSpeed(month: string = '2026-05'): Observable<PageSpeedMetrics> {
-    return this.http.get<PageSpeedMetrics>(`${this.API_URL}/page-speed?month=${month}`);
+  getPageSpeed(month: string = '2026-05', country: string = 'in'): Observable<PageSpeedMetrics> {
+    return this.http.get<PageSpeedMetrics>(`${this.API_URL}/page-speed?month=${month}&country=${country}`);
   }
 
-  getFormSubmissions(month: string = '2026-05'): Observable<LeadLog[]> {
-    return this.http.get<LeadLog[]>(`${this.API_URL}/form-submissions?month=${month}`);
+  getFormSubmissions(month: string = '2026-05', country: string = 'in'): Observable<LeadLog[]> {
+    return this.http.get<LeadLog[]>(`${this.API_URL}/form-submissions?month=${month}&country=${country}`);
   }
 
-  getChatbotUsage(month: string = '2026-05'): Observable<ChatbotUsageMetrics> {
-    return this.http.get<ChatbotUsageMetrics>(`${this.API_URL}/chatbot?month=${month}`);
+  getChatbotUsage(month: string = '2026-05', country: string = 'in'): Observable<ChatbotUsageMetrics> {
+    return this.http.get<ChatbotUsageMetrics>(`${this.API_URL}/chatbot?month=${month}&country=${country}`);
   }
 
   // 3. Centralized Dashboard Summary Metrics
-  getSummaryMetrics(month: string = '2026-05'): Observable<SummaryMetrics> {
-    return this.http.get<SummaryMetrics>(`${this.API_URL}/summary?month=${month}`);
+  getSummaryMetrics(month: string = '2026-05', country: string = 'in'): Observable<SummaryMetrics> {
+    return this.http.get<SummaryMetrics>(`${this.API_URL}/summary?month=${month}&country=${country}`).pipe(
+      tap(res => {
+        this.isCredentialsError.set(res.source === 'unavailable');
+      }),
+      catchError(err => {
+        this.isCredentialsError.set(true);
+        throw err;
+      })
+    );
   }
 }

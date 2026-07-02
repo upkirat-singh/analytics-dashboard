@@ -34,3 +34,105 @@ body {
 h1, h2, h3, h4, .font-display {
   font-family: var(--font-display);
 }
+
+/* ─── Shared Widget Shell ───────────────────────────────────────────────────── */
+/* These must be global (not component-scoped) so they apply across all widgets */
+
+.widget-shell {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  transition: box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.widget-shell:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+/* Header row: title + expand button */
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.25rem 1.25rem 0.75rem 1.25rem;
+  flex-shrink: 0;
+  gap: 0.5rem;
+}
+
+/* Scrollable content body */
+.widget-body {
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  overflow-y: auto;
+  max-height: 340px;
+  flex: 1;
+  scrollbar-width: thin;
+  scrollbar-color: #e2e8f0 transparent;
+}
+
+.widget-body::-webkit-scrollbar { width: 5px; }
+.widget-body::-webkit-scrollbar-track { background: transparent; }
+.widget-body::-webkit-scrollbar-thumb {
+  background-color: #e2e8f0;
+  border-radius: 9999px;
+}
+
+/* Expand / collapse icon button */
+.expand-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.expand-btn:hover {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+/* Fullscreen / expanded state */
+.widget-shell.expanded {
+  position: fixed;
+  inset: 5vh 5vw;
+  z-index: 1000;
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+  max-height: 90vh;
+  animation: widget-pop-in 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.widget-shell.expanded .widget-body {
+  max-height: calc(90vh - 90px);
+}
+
+@keyframes widget-pop-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Blurred backdrop behind expanded widget */
+.widget-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  animation: backdrop-in 0.2s ease forwards;
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

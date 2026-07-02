@@ -12,6 +12,8 @@ import { UserFlowWidgetComponent } from '../../components/widgets/user-flow-widg
 import { FormSubmissionsWidgetComponent } from '../../components/widgets/form-submissions-widget/form-submissions-widget';
 import { ChatbotUsageWidgetComponent } from '../../components/widgets/chatbot-usage-widget/chatbot-usage-widget';
 import { WidgetConfigService } from '../../services/widget-config.service';
+import { LoadingService } from '../../services/loading.service';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,12 +35,15 @@ import { WidgetConfigService } from '../../services/widget-config.service';
   styleUrl: './dashboard.css',
 })
 export class DashboardComponent {
-  // Inject the configuration service
+  // Inject the services
   readonly configService = inject(WidgetConfigService);
+  readonly loadingService = inject(LoadingService);
+  private readonly gaService = inject(GoogleAnalyticsService);
 
   // Expose signals to the template
   readonly activeWidgets = this.configService.activeWidgets;
   readonly availableWidgets = this.configService.availableWidgets;
+  readonly isCredentialsError = this.gaService.isCredentialsError;
 
   // Drawer menu visibility state
   isSettingsOpen = signal(false);
@@ -54,5 +59,18 @@ export class DashboardComponent {
     if (select) {
       this.configService.changeMonth(select.value);
     }
+  }
+
+  // Handle country selector dropdown changes
+  onCountryChange(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    if (select) {
+      this.configService.changeCountry(select.value);
+    }
+  }
+
+  // Helper getter for the template
+  getSelectedCountryName(): string {
+    return this.configService.selectedCountryName();
   }
 }

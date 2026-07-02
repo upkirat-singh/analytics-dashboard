@@ -15,10 +15,10 @@ export class EngagementWidgetComponent {
   private readonly gaService = inject(GoogleAnalyticsService);
   private readonly configService = inject(WidgetConfigService);
 
-  // Automatically fetches summary metrics whenever the globally selected month changes
+  // Automatically fetches summary metrics whenever the globally selected filter changes
   readonly metrics = toSignal(
-    toObservable(this.configService.selectedMonth).pipe(
-      switchMap(month => this.gaService.getSummaryMetrics(month))
+    toObservable(this.configService.selectedFilter).pipe(
+      switchMap(filter => this.gaService.getSummaryMetrics(filter.month, filter.country))
     )
   );
 }

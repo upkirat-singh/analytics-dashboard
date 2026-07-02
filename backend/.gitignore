@@ -1,0 +1,17 @@
+# Secrets 
+client_secret.json
+token.json
+service-account.json
+.env
+
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+*.egg-info/
+
+# Environment
+.env

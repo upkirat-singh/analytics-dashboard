@@ -1,4 +1,9 @@
 <div class="dashboard-layout">
+  <!-- Slim glowing global loading bar at top of viewport -->
+  @if (loadingService.isLoading()) {
+    <div class="global-loading-bar"></div>
+  }
+
   <!-- Main Content Area -->
   <main class="main-content">
     <!-- Top Header -->
@@ -8,14 +13,40 @@
           <img src="brand/nephroplus-logo.png" alt="NephroPlus" class="header-logo" />
         </div>
         <h1>Analytics Overview</h1>
-        <p>Live metrics from Google Analytics</p>
+        <p>Live metrics for {{ getSelectedCountryName() }}</p>
       </div>
 
       <div class="header-actions">
-        <div class="status-indicator">
-          <span class="pulse-dot"></span>
-          <span>Live Sync Active</span>
+        <!-- Loading spinner or Sync Active indicator -->
+        @if (loadingService.isLoading()) {
+          <div class="loading-indicator-badge">
+            <svg class="animate-spin h-4 w-4 text-brand-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span class="text-xs font-semibold text-slate-500">Syncing data...</span>
+          </div>
+        } @else {
+          <div class="status-indicator">
+            <span class="pulse-dot" [class.paused]="isCredentialsError()"></span>
+            <span>{{ isCredentialsError() ? 'Config Missing' : 'Live Sync Active' }}</span>
+          </div>
+        }
+
+        <!-- Country selector dropdown -->
+        <div class="country-selector">
+          <select 
+            [value]="configService.selectedCountry()" 
+            (change)="onCountryChange($event)"
+            class="bg-slate-50 border border-slate-200 text-slate-700 text-sm font-semibold rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-blue cursor-pointer"
+          >
+            @for (country of configService.availableCountries; track country.code) {
+              <option [value]="country.code">{{ country.name }}</option>
+            }
+          </select>
         </div>
+
+        <!-- Month selector dropdown -->
         <div class="month-selector">
           <select 
             [value]="configService.selectedMonth()" 
@@ -29,6 +60,7 @@
             <option value="2026-01">January 2026</option>
           </select>
         </div>
+
         <button class="btn btn-primary" (click)="toggleSettings()">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -40,8 +72,29 @@
       </div>
     </header>
 
+    <!-- Credentials configuration warning card -->
+    @if (isCredentialsError()) {
+      <div class="px-8 pt-6">
+        <div class="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-5 flex items-start gap-4 shadow-xs backdrop-blur-xs">
+          <div class="p-2 bg-amber-100 rounded-xl text-amber-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-bold text-slate-800 text-sm">Google API Credentials Missing</h4>
+            <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+              Google Analytics and Search Console integration is not configured for <strong>{{ getSelectedCountryName() }}</strong>.
+              To display live sync metrics, please configure the Google service account credentials and correct GA4 property IDs in 
+              <code class="bg-amber-100/50 px-1.5 py-0.5 rounded text-amber-900 border border-amber-200/30">backend/countries_config.json</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+    }
+
     <!-- Dashboard Content Widgets Grid -->
-    <div class="widgets-container">
+    <div class="widgets-container" [class.loading]="loadingService.isLoading()">
 
       <!-- KPI Widgets Grid (Top Section) -->
       <section class="kpi-grid">

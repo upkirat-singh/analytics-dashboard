@@ -1,0 +1,20 @@
+{
+  "in": {
+    "name": "India",
+    "ga_property_id": "314988226",
+    "gsc_site_url": "sc-domain:nephroplus.com",
+    "credentials_path": "service-account.json"
+  },
+  "ph": {
+    "name": "Philippines",
+    "ga_property_id": "GA_PROPERTY_ID_PH",
+    "gsc_site_url": "GSC_SITE_URL_PH",
+    "credentials_path": "service-account-philippines.json"
+  },
+  "uz": {
+    "name": "Uzbekistan",
+    "ga_property_id": "GA_PROPERTY_ID_UZ",
+    "gsc_site_url": "GSC_SITE_URL_UZ",
+    "credentials_path": "service-account-uzbekistan.json"
+  }
+}
